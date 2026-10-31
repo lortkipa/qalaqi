@@ -1,0 +1,8 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {routes,turnAt,lightGreen,applyViolation,lanePath} from '../src/routes.js';
+test('eight distinct connected routes stay on the city grid',()=>{assert.equal(routes.length,8);assert.equal(new Set(routes.map(r=>JSON.stringify(r.nodes))).size,8);for(const r of routes){assert.ok(r.length>500);assert.ok(r.turns>=2);r.nodes.forEach((p,i)=>{assert.ok(p.every(n=>n>=0&&n<=4));if(i){const a=r.nodes[i-1];assert.equal(Math.abs(p[0]-a[0])+Math.abs(p[1]-a[1]),1);}});}});
+test('lane offsets keep northbound and eastbound cars on the right',()=>{assert.equal(lanePath([[1,2],[1,1]])[0].x,123.3);assert.equal(lanePath([[1,1],[2,1]])[0].z,123.3);});
+test('navigation distinguishes left, right, straight and finish',()=>{const p=[{x:0,z:100},{x:0,z:0},{x:100,z:0}];assert.equal(turnAt(p,1),'right');p[2].x=-100;assert.equal(turnAt(p,1),'left');p[2]={x:0,z:-100};assert.equal(turnAt(p,1),'straight');assert.equal(turnAt(p,2),'finish');});
+test('traffic signals never grant both axes green',()=>{for(let t=0;t<96;t+=.25)assert.ok(!(lightGreen(t,'x')&&lightGreen(t,'z')));assert.equal(lightGreen(14,'x'),false);assert.equal(lightGreen(14,'z'),false);assert.equal(lightGreen(17,'x'),true);});
+test('three minor mistakes or a dangerous violation fails the exam',()=>{let state={mistakes:0};state=applyViolation(state);assert.equal(state.failed,false);state=applyViolation(state);assert.equal(state.failed,false);state=applyViolation(state);assert.equal(state.failed,true);assert.equal(state.score,0);assert.equal(applyViolation({mistakes:0},true).failed,true);});
