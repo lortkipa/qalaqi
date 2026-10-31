@@ -1,8 +1,260 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#102c27"><title>Rustavi Drive — Practical exam simulator</title></head><body>
-<div id="app"><aside class="sidebar"><a class="brand" href="/"> <span class="brand-icon">რ</span><span>RUSTAVI<span class="brand-sub">DRIVING ACADEMY</span></span></a><div class="side-label">YOUR TRAINING SPACE</div><div class="nav active">▧ <span>Driving simulator</span><span class="live-dot"></span></div><div class="section-heading">PRACTICE ROUTES <span>08</span></div><div id="routes"></div><div class="side-bottom"><span class="status-dot"></span> All systems ready<div>Built for a more confident driver.</div></div></aside>
-<main><header><div class="breadcrumb">Academy <span>/</span> Practical exam <span>/</span> <b>Rustavi</b></div><div class="location"><span>⌖</span> Rustavi, Georgia <span class="flag">🇬🇪</span></div></header><section class="heading"><div><div class="eyebrow">LEARN THE ROAD. OWN THE MOMENT.</div><h1>Your next turn starts here.</h1><p>Eight routes. Real decisions. A little more confidence with every drive.</p></div><button class="outline" id="help">⌨ &nbsp; Driving controls</button></section>
-<div class="workspace"><section class="sim-column"><div class="sim-frame"><div id="scene"></div><div class="scene-top"><span class="scene-pill"><i></i> LIVE SIMULATION</span><span class="weather">☀ &nbsp; 18°C <span> • </span> Clear visibility</span></div><div class="direction"><span id="turn-icon">↑</span><div><small>YOUR NEXT MANEUVER</small><strong id="navigation">Continue straight</strong><span id="distance">Prepare to start your drive</span></div><div class="limit">40</div></div><div id="notice" class="notice hidden"></div><div class="road-label">RUSTAVI <span>•</span> PRACTICE ENVIRONMENT</div><div class="cockpit"><div class="dash-left"><span id="left-lamp">◀</span><div><small>GEAR</small><b id="gear">N</b></div><span id="right-lamp">▶</span></div><div class="speed"><b id="speed">0</b><span>km/h</span></div><div class="dash-right"><small>SPEED LIMIT</small><b>40 <span>km/h</span></b><span id="belt-status">◉ Seat belt off</span></div></div><div id="start-cover" class="start-cover"><div class="start-symbol">↗</div><h2>Take the driver’s seat.</h2><p>Your instructor is ready. The road is yours.</p><button id="start">Start practice <span>→</span></button><small>Use a keyboard for the best experience</small></div></div><div class="sim-toolbar"><div><span class="status-dot"></span><b id="session-state">Ready when you are</b><span id="timer">00:00</span></div><div><button id="camera" title="Switch camera (C)">◧ <span>Driver view</span></button><button id="pause" title="Pause (P)">Ⅱ</button><button id="restart" title="Restart">↻</button></div></div><div class="controls-strip"><span><kbd>W</kbd><kbd>S</kbd> Accelerate / brake</span><span><kbd>A</kbd><kbd>D</kbd> Steer</span><span><kbd>Q</kbd><kbd>E</kbd> Indicators</span><span><kbd>B</kbd> Seat belt</span><span><kbd>Space</kbd> Handbrake</span></div><div class="mobile-controls"><button data-key="a">←</button><button data-key="d">→</button><button data-key="s">Brake</button><button data-key="w">Gas</button><button id="mobile-belt">Belt</button></div><div class="route-note"><span>ⓘ</span><p><b>Practice with purpose.</b> These eight illustrative routes are inspired by Rustavi. They are not verified official exam routes or a substitute for on-road instruction.</p></div></section>
-<aside class="details"><section class="card instructor-card"><div class="card-heading"><h3>Your instructor</h3><span class="tag">ON BOARD</span></div><div class="instructor"><div class="avatar"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#dce6dc"/><path d="M10 80Q12 51 40 52Q70 52 73 80" fill="#254a42"/><path d="M32 49v12l8 8 9-8V48" fill="#c08c6b"/><ellipse cx="40" cy="32" rx="17" ry="23" fill="#d4a17e"/><path d="M23 29Q17 2 40 5Q63 4 57 30l-6-13-24 5" fill="#48463f"/><path d="M27 29h11v8H27zm16 0h11v8H43zM38 32h5" fill="none" stroke="#253b36" stroke-width="2"/><path d="M34 45q6 4 12 0" fill="none" stroke="#805e4e" stroke-width="2"/></svg></div><div><b>Giorgi</b><span>Your virtual examiner</span><small><i></i> In the passenger seat</small></div></div><div class="quote" id="instructor-message">“A good drive starts before you move. Buckle up, check your surroundings, and take your time.”</div><div class="monitoring">◉ &nbsp; Monitoring your driving in real time</div></section>
-<section class="card route-card"><div class="card-heading"><h3 id="route-title">Route 01</h3><span class="tag neutral" id="difficulty">FOUNDATIONS</span></div><canvas id="map" width="500" height="310" aria-label="Route map and vehicle position"></canvas><div class="route-stats"><div><small>DISTANCE</small><b id="route-length">1.4 <span>km</span></b></div><div><small>PROGRESS</small><b id="progress">0 <span>%</span></b></div><div><small>TURNS</small><b id="turn-count">4</b></div></div><div class="progress-track"><div id="progress-bar"></div></div></section>
-<section class="card assessment"><div class="card-heading"><h3>Exam assessment</h3><span id="score" class="score">100</span></div><div class="assessment-row"><span>Speed & lane discipline</span><span id="check-speed">Watching</span></div><div class="assessment-row"><span>Signals & safe turns</span><span id="check-signal">Watching</span></div><div class="assessment-row"><span>Pedestrian awareness</span><span id="check-ped">Watching</span></div><div class="assessment-footer"><i></i><span id="assessment-note">Stay aware. Smooth is safe.</span></div></section></aside></div><footer><span><b>RUSTAVI DRIVE</b> &nbsp; A better way to prepare.</span><span>Practice simulator <span class="footer-dot">•</span> Right-hand traffic</span></footer></main></div>
-<dialog id="help-dialog"><button class="close" id="close-help">×</button><div class="eyebrow">GET COMFORTABLE</div><h2>You’re in control.</h2><p>Follow the turquoise route markers. Drive on the right, stop at red lights and yield to pedestrians. Signal before turns. Three minor violations or any collision ends the exam.</p><dl><dt>W / ↑</dt><dd>Accelerate</dd><dt>S / ↓</dt><dd>Brake (hold when stopped to reverse)</dd><dt>A D / ← →</dt><dd>Steer</dd><dt>Q / E</dt><dd>Toggle left / right indicator</dd><dt>B</dt><dd>Fasten seat belt</dd><dt>Space</dt><dd>Handbrake</dd><dt>C</dt><dd>Driver / follow camera</dd><dt>P</dt><dd>Pause / resume</dd></dl><p class="muted">Illustrative practice rules; not an official Georgian scoring system.</p></dialog><script type="module" src="/src/main.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#102c27" />
+    <title>Rustavi Drive — Practical exam simulator</title>
+  </head>
+  <body>
+    <div id="app">
+      <aside class="sidebar">
+        <a class="brand" href="/">
+          <span class="brand-icon">რ</span
+          ><span>RUSTAVI<span class="brand-sub">DRIVING ACADEMY</span></span></a
+        >
+        <div class="side-label">YOUR TRAINING SPACE</div>
+        <div class="nav active">
+          ▧ <span>Driving simulator</span><span class="live-dot"></span>
+        </div>
+        <div class="section-heading">PRACTICE ROUTES <span>08</span></div>
+        <div id="routes"></div>
+        <div class="side-bottom">
+          <span class="status-dot"></span> All systems ready
+          <div>Built for a more confident driver.</div>
+        </div>
+      </aside>
+      <main>
+        <header>
+          <div class="breadcrumb">
+            Academy <span>/</span> Practical exam <span>/</span> <b>Rustavi</b>
+          </div>
+          <div class="location">
+            <span>⌖</span> Rustavi, Georgia <span class="flag">🇬🇪</span>
+          </div>
+        </header>
+        <section class="heading">
+          <div>
+            <div class="eyebrow">LEARN THE ROAD. OWN THE MOMENT.</div>
+            <h1>Your next turn starts here.</h1>
+            <p>
+              Eight routes. Real decisions. A little more confidence with every
+              drive.
+            </p>
+          </div>
+          <button class="outline" id="help">⌨ &nbsp; Driving controls</button>
+        </section>
+        <div class="workspace">
+          <section class="sim-column">
+            <div class="sim-frame">
+              <div id="scene"></div>
+              <div class="scene-top">
+                <span class="scene-pill"><i></i> LIVE SIMULATION</span
+                ><span class="weather"
+                  >☀ &nbsp; 18°C <span> • </span> Clear visibility</span
+                >
+              </div>
+              <div class="direction">
+                <span id="turn-icon">↑</span>
+                <div>
+                  <small>YOUR NEXT MANEUVER</small
+                  ><strong id="navigation">Continue straight</strong
+                  ><span id="distance">Prepare to start your drive</span>
+                </div>
+                <div class="limit">40</div>
+              </div>
+              <div id="notice" class="notice hidden"></div>
+              <div class="road-label">
+                RUSTAVI <span>•</span> PRACTICE ENVIRONMENT
+              </div>
+              <div class="cockpit">
+                <div class="dash-left">
+                  <span id="left-lamp">◀</span>
+                  <div><small>GEAR</small><b id="gear">N</b></div>
+                  <span id="right-lamp">▶</span>
+                </div>
+                <div class="speed"><b id="speed">0</b><span>km/h</span></div>
+                <div class="dash-right">
+                  <small>SPEED LIMIT</small><b>40 <span>km/h</span></b
+                  ><span id="belt-status">◉ Seat belt off</span>
+                </div>
+              </div>
+              <div id="start-cover" class="start-cover">
+                <div class="start-symbol">↗</div>
+                <h2>Take the driver’s seat.</h2>
+                <p>Your instructor is ready. The road is yours.</p>
+                <button id="start">Start practice <span>→</span></button
+                ><small>Use a keyboard for the best experience</small>
+              </div>
+            </div>
+            <div class="sim-toolbar">
+              <div>
+                <span class="status-dot"></span
+                ><b id="session-state">Ready when you are</b
+                ><span id="timer">00:00</span>
+              </div>
+              <div>
+                <button id="camera" title="Switch camera (C)">
+                  ◧ <span>Driver view</span></button
+                ><button id="pause" title="Pause (P)">Ⅱ</button
+                ><button id="restart" title="Restart">↻</button>
+              </div>
+            </div>
+            <div class="controls-strip">
+              <span><kbd>W</kbd><kbd>S</kbd> Accelerate / brake</span
+              ><span><kbd>A</kbd><kbd>D</kbd> Steer</span
+              ><span><kbd>Q</kbd><kbd>E</kbd> Indicators</span
+              ><span><kbd>B</kbd> Seat belt</span
+              ><span><kbd>Space</kbd> Handbrake</span>
+            </div>
+            <div class="mobile-controls">
+              <button data-key="a">←</button><button data-key="d">→</button
+              ><button data-key="s">Brake</button
+              ><button data-key="w">Gas</button
+              ><button id="mobile-belt">Belt</button>
+            </div>
+            <div class="route-note">
+              <span>ⓘ</span>
+              <p>
+                <b>Practice with purpose.</b> These eight illustrative routes
+                are inspired by Rustavi. They are not verified official exam
+                routes or a substitute for on-road instruction.
+              </p>
+            </div>
+          </section>
+          <aside class="details">
+            <section class="card instructor-card">
+              <div class="card-heading">
+                <h3>Your instructor</h3>
+                <span class="tag">ON BOARD</span>
+              </div>
+              <div class="instructor">
+                <div class="avatar">
+                  <svg viewBox="0 0 80 80">
+                    <rect width="80" height="80" fill="#dce6dc" />
+                    <path d="M10 80Q12 51 40 52Q70 52 73 80" fill="#254a42" />
+                    <path d="M32 49v12l8 8 9-8V48" fill="#c08c6b" />
+                    <ellipse cx="40" cy="32" rx="17" ry="23" fill="#d4a17e" />
+                    <path
+                      d="M23 29Q17 2 40 5Q63 4 57 30l-6-13-24 5"
+                      fill="#48463f"
+                    />
+                    <path
+                      d="M27 29h11v8H27zm16 0h11v8H43zM38 32h5"
+                      fill="none"
+                      stroke="#253b36"
+                      stroke-width="2"
+                    />
+                    <path
+                      d="M34 45q6 4 12 0"
+                      fill="none"
+                      stroke="#805e4e"
+                      stroke-width="2"
+                    />
+                  </svg>
+                </div>
+                <div>
+                  <b>Giorgi</b><span>Your virtual examiner</span
+                  ><small><i></i> In the passenger seat</small>
+                </div>
+              </div>
+              <div class="quote" id="instructor-message">
+                “A good drive starts before you move. Buckle up, check your
+                surroundings, and take your time.”
+              </div>
+              <div class="monitoring">
+                ◉ &nbsp; Monitoring your driving in real time
+              </div>
+            </section>
+            <section class="card route-card">
+              <div class="card-heading">
+                <h3 id="route-title">Route 01</h3>
+                <span class="tag neutral" id="difficulty">FOUNDATIONS</span>
+              </div>
+              <canvas
+                id="map"
+                width="500"
+                height="310"
+                aria-label="Route map and vehicle position"
+              ></canvas>
+              <div class="route-stats">
+                <div>
+                  <small>DISTANCE</small
+                  ><b id="route-length">1.4 <span>km</span></b>
+                </div>
+                <div>
+                  <small>PROGRESS</small><b id="progress">0 <span>%</span></b>
+                </div>
+                <div><small>TURNS</small><b id="turn-count">4</b></div>
+              </div>
+              <div class="progress-track"><div id="progress-bar"></div></div>
+            </section>
+            <section class="card assessment">
+              <div class="card-heading">
+                <h3>Exam assessment</h3>
+                <span id="score" class="score">100</span>
+              </div>
+              <div class="assessment-row">
+                <span>Speed & lane discipline</span
+                ><span id="check-speed">Watching</span>
+              </div>
+              <div class="assessment-row">
+                <span>Signals & safe turns</span
+                ><span id="check-signal">Watching</span>
+              </div>
+              <div class="assessment-row">
+                <span>Pedestrian awareness</span
+                ><span id="check-ped">Watching</span>
+              </div>
+              <div class="assessment-footer">
+                <i></i
+                ><span id="assessment-note">Stay aware. Smooth is safe.</span>
+              </div>
+            </section>
+          </aside>
+        </div>
+        <footer>
+          <span><b>RUSTAVI DRIVE</b> &nbsp; A better way to prepare.</span
+          ><span
+            >Practice simulator <span class="footer-dot">•</span> Right-hand
+            traffic</span
+          >
+        </footer>
+      </main>
+    </div>
+    <dialog id="help-dialog">
+      <button class="close" id="close-help">×</button>
+      <div class="eyebrow">GET COMFORTABLE</div>
+      <h2>You’re in control.</h2>
+      <p>
+        Follow the turquoise route markers. Drive on the right, stop at red
+        lights and yield to pedestrians. Signal before turns. Three minor
+        violations or any collision ends the exam.
+      </p>
+      <dl>
+        <dt>W / ↑</dt>
+        <dd>Accelerate</dd>
+        <dt>S / ↓</dt>
+        <dd>Brake</dd>
+        <dt>A D / ← →</dt>
+        <dd>Steer</dd>
+        <dt>Q / E</dt>
+        <dd>Toggle left / right indicator</dd>
+        <dt>R</dt>
+        <dd>Select drive / reverse while stopped</dd>
+        <dt>B</dt>
+        <dd>Fasten seat belt</dd>
+        <dt>Space</dt>
+        <dd>Handbrake</dd>
+        <dt>C</dt>
+        <dd>Driver / follow camera</dd>
+        <dt>P</dt>
+        <dd>Pause / resume</dd>
+      </dl>
+      <p class="muted">
+        Illustrative practice rules; not an official Georgian scoring system.
+      </p>
+    </dialog>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
